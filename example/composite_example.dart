@@ -4,7 +4,7 @@ import 'package:cancelation_token/cancelation_token.dart';
 
 import 'long_process.dart';
 
-void main() async {
+Future<void> main() async {
   final rnd = Random();
 
   final timeout1 = Duration(milliseconds: 2000 + 250 * rnd.nextInt(4));

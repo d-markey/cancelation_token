@@ -4,7 +4,7 @@ import 'package:cancelation_token/cancelation_token.dart';
 
 import 'long_process.dart';
 
-void main() async {
+Future<void> main() async {
   final token = CancelableToken();
 
   int counter = 0;
