@@ -1,0 +1,11 @@
+name: cancelation_token
+description: This package provides an interface for cancelation tokens as well as various implementations (cancelable, timeout, composite...).
+version: 1.0.0
+repository: https://github.com/d-markey/cancelation_token
+
+environment:
+  sdk: ^2.19.0
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0
