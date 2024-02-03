@@ -4,13 +4,19 @@ import '../cancelation_token.dart';
 import '../exceptions/canceled_exception.dart';
 import '../exceptions/canceled_exceptions.dart';
 
+/// Cancelation token that get canceled when one or all tracked cancelation
+/// tokens are canceled.
 class CompositeToken extends CancelationToken {
+  /// This constructor builds a cancelation token that will be canceled when
+  /// one of the provided tokens is canceled.
   CompositeToken.any(Iterable<CancelationToken> tokens) {
     for (var t in tokens) {
       t.onCanceled.then(_cancel);
     }
   }
 
+  /// This constructor builds a cancelation token that will be canceled when
+  /// all of the provided tokens are canceled.
   CompositeToken.all(Iterable<CancelationToken> tokens) {
     final list = tokens.toList();
     final count = list.length;

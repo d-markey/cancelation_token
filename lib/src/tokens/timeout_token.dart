@@ -4,6 +4,8 @@ import '../cancelation_token.dart';
 import '../exceptions/canceled_exception.dart';
 import '../exceptions/timeout_canceled_exception.dart';
 
+/// Cancelation token that get canceled after a [timeout] duration. Countdown
+/// starts after a call to [ensureStarted].
 class TimeoutToken extends CancelationToken {
   TimeoutToken(this.timeout, [CanceledException? exception])
       : _exception = exception {
@@ -14,6 +16,7 @@ class TimeoutToken extends CancelationToken {
 
   CanceledException? _exception;
 
+  /// The [timeout] duration for canceling the token.
   final Duration timeout;
   Timer? _timer;
 
@@ -25,6 +28,7 @@ class TimeoutToken extends CancelationToken {
   @override
   Future<CanceledException> get onCanceled => _canceler.future;
 
+  /// Start the [timeout] countdown.
   void ensureStarted() {
     if (timeout == Duration.zero) {
       _cancel();
@@ -36,6 +40,9 @@ class TimeoutToken extends CancelationToken {
     }
   }
 
+  /// Stop the countdown. The countdown can be restarted by calling
+  /// [ensureStarted], but it will restart from the initial [timeout]
+  /// duration.
   void stop() {
     _timer?.cancel();
     _timer = null;

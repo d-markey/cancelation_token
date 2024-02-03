@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'canceled_exception.dart';
 
+/// Cancelation exception for timeout tokens. It also implements
+/// [TimeoutException].
 class TimeoutCanceledException extends CanceledException
     implements TimeoutException {
   TimeoutCanceledException(

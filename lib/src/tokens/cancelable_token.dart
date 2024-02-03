@@ -3,6 +3,7 @@ import 'dart:async';
 import '../cancelation_token.dart';
 import '../exceptions/canceled_exception.dart';
 
+/// A programmatically cancelable token.
 class CancelableToken extends CancelationToken {
   final _canceler = Completer<CanceledException>();
 
@@ -21,6 +22,8 @@ class CancelableToken extends CancelationToken {
     }
   }
 
+  /// Cancel the token. Multiple calls are allowed but only the first one will
+  /// be taken into account.
   Future<void> cancel([CanceledException? exception]) {
     if (!_canceler.isCompleted) {
       _exception = exception ?? CanceledException();
