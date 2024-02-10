@@ -14,28 +14,27 @@ class TimeoutToken extends CancelationToken {
     }
   }
 
-  CanceledException? _exception;
-
   /// The [timeout] duration for canceling the token.
   final Duration timeout;
   Timer? _timer;
 
-  final _canceler = Completer<CanceledException>();
-
   @override
-  bool get isCanceled => _canceler.isCompleted;
+  CanceledException? get exception => _canceler.isCompleted ? _exception : null;
+  CanceledException? _exception;
 
   @override
   Future<CanceledException> get onCanceled => _canceler.future;
+  final _canceler = Completer<CanceledException>();
 
   /// Start the [timeout] countdown.
+  @override
   void ensureStarted() {
     if (timeout == Duration.zero) {
       _cancel();
     } else {
       _timer ??= Timer.periodic(timeout, (t) {
-        t.cancel();
         _cancel();
+        t.cancel();
       });
     }
   }
@@ -48,16 +47,9 @@ class TimeoutToken extends CancelationToken {
     _timer = null;
   }
 
-  @override
-  void throwIfCanceled() {
-    if (_canceler.isCompleted && _exception != null) {
-      throw _exception!;
-    }
-  }
-
   void _cancel() {
+    _exception ??= TimeoutCanceledException();
     if (!_canceler.isCompleted) {
-      _exception ??= TimeoutCanceledException();
       _canceler.complete(_exception);
     }
   }

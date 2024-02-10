@@ -5,28 +5,24 @@ import '../exceptions/canceled_exception.dart';
 
 /// A programmatically cancelable token.
 class CancelableToken extends CancelationToken {
-  final _canceler = Completer<CanceledException>();
-
   @override
-  bool get isCanceled => _canceler.isCompleted;
-
-  @override
-  Future<CanceledException> get onCanceled => _canceler.future;
-
+  CanceledException? get exception => _exception;
   CanceledException? _exception;
 
   @override
-  void throwIfCanceled() {
-    if (_exception != null) {
-      throw _exception!;
-    }
-  }
+  Future<CanceledException> get onCanceled => _canceler.future;
+  final _canceler = Completer<CanceledException>();
 
-  /// Cancel the token. Multiple calls are allowed but only the first one will
-  /// be taken into account.
+  /// This method has no effect in [CancelableToken] instances.
+  @override
+  void ensureStarted() {}
+
+  /// Cancel the token and return a completed future. Multiple calls are
+  /// allowed but only the first one will be taken into account. Returns a
+  /// completed future.
   Future<void> cancel([CanceledException? exception]) {
+    _exception ??= exception ?? CanceledException();
     if (!_canceler.isCompleted) {
-      _exception = exception ?? CanceledException();
       _canceler.complete(_exception);
     }
     return _canceledFuture;

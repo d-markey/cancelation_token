@@ -1,6 +1,6 @@
 name: cancelation_token
 description: This package provides an interface for cancelation tokens as well as various implementations (cancelable, timeout, composite...).
-version: 1.0.1
+version: 1.1.0
 repository: https://github.com/d-markey/cancelation_token
 
 environment:
