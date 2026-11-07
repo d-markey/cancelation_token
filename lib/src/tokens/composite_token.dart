@@ -6,7 +6,7 @@ import '../exceptions/canceled_exceptions.dart';
 
 enum _Mode {
   any,
-  every,
+  all,
 }
 
 /// Cancelation token that get canceled when one or all tracked cancelation
@@ -28,7 +28,7 @@ class CompositeToken extends CancelationToken {
   /// This constructor builds a cancelation token that will be canceled when
   /// all of the provided tokens are canceled.
   CompositeToken.all(Iterable<CancelationToken> tokens)
-      : this._(tokens, _Mode.every);
+      : this._(tokens, _Mode.all);
 
   final _Mode _mode;
   final List<CancelationToken> _tokens;
@@ -77,7 +77,7 @@ class CompositeToken extends CancelationToken {
         case _Mode.any:
           _exception ??= (idx != null) ? _tokens[idx].exception : first;
           break;
-        case _Mode.every:
+        case _Mode.all:
           _exception ??= (pending == 0)
               ? CanceledExceptions(_tokens.map((e) => e.exception))
               : null;

@@ -1,3 +1,7 @@
+## 1.2.0
+
+- Add `CancelationToken.none` getter to use as a non-cancellable token.
+
 ## 1.1.0
 
 - Add `exception` getter to retrieve the exception that effectively canceled the token.

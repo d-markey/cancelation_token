@@ -1,7 +1,12 @@
 import 'exceptions/canceled_exception.dart';
+import 'tokens/non_cancelable_token.dart';
 
 /// Base class for cancelation tokens.
 abstract class CancelationToken {
+  const CancelationToken();
+
+  static CancelationToken get none => const NonCancelableToken();
+
   /// Return `true` if the token was canceled, `false` otherwise.
   bool get isCanceled => (exception != null);
 
